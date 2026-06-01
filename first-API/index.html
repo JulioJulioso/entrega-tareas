@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buscador de Gundams</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <h1>Buscador de Gundams</h1>
+
+    <p>Escribe el nombre de un Gundam:</p>
+
+    <input type="text" id="busqueda" placeholder="ej: unicorn, zaku, wing...">
+    <button onclick="buscar()">Buscar</button>
+
+    <p><b>Prueba escribir:</b> unicorn / zaku / wing / barbatos / exia / freedom / strike / astray</p>
+
+    <p id="mensaje"></p>
+
+    <div id="resultado"></div>
+
+    <script>
+        async function buscar() {
+            var texto = document.getElementById("busqueda").value;
+
+            if (texto == "") {
+                document.getElementById("mensaje").innerText = "Por favor escribe algo!";
+                return;
+            }
+
+            document.getElementById("mensaje").innerText = "Buscando...";
+            document.getElementById("resultado").innerHTML = "";
+
+            var respuesta = await fetch("https://gundam-api.pages.dev/api/gundams?page=1&limit=20");
+            var datos = await respuesta.json();
+
+            var encontrado = null;
+            for (var i = 0; i < datos.results.length; i++) {
+                if (datos.results[i].name.toLowerCase().includes(texto.toLowerCase())) {
+                    encontrado = datos.results[i];
+                    break;
+                }
+            }
+
+            if (encontrado == null) {
+                document.getElementById("mensaje").innerText = "No se encontro nada para: " + texto;
+                return;
+            }
+
+            document.getElementById("mensaje").innerText = "Encontrado!";
+
+            var div = document.createElement("div");
+            div.className = "carta";
+
+            if (encontrado.imgUrl) {
+                var img = document.createElement("img");
+                img.src = encontrado.imgUrl;
+                img.alt = encontrado.name;
+                div.appendChild(img);
+            }
+
+            var nombre = document.createElement("p");
+            nombre.innerText = encontrado.name;
+            div.appendChild(nombre);
+
+            if (encontrado.header) {
+                var desc = document.createElement("p");
+                desc.className = "desc";
+                desc.innerText = encontrado.header;
+                div.appendChild(desc);
+            }
+
+            document.getElementById("resultado").appendChild(div);
+        }
+
+        document.getElementById("busqueda").addEventListener("keydown", function(e) {
+            if (e.key == "Enter") buscar();
+        });
+    </script>
+
+</body>
+</html>
