@@ -21,7 +21,7 @@
 
     <script>
         async function buscar() {
-            var texto = document.getElementById("busqueda").value;
+            const texto = document.getElementById("busqueda").value;
 
             if (texto == "") {
                 document.getElementById("mensaje").innerText = "Por favor escribe algo!";
@@ -31,11 +31,11 @@
             document.getElementById("mensaje").innerText = "Buscando...";
             document.getElementById("resultado").innerHTML = "";
 
-            var respuesta = await fetch("https://gundam-api.pages.dev/api/gundams?page=1&limit=20");
-            var datos = await respuesta.json();
+            const respuesta = await fetch("https://api.allorigins.win/raw?url=https://gundam-api.pages.dev/api/gundams?page=1%26limit=20");
+            const datos = await respuesta.json();
 
-            var encontrado = null;
-            for (var i = 0; i < datos.results.length; i++) {
+            let encontrado = null;
+            for (let i = 0; i < datos.results.length; i++) {
                 if (datos.results[i].name.toLowerCase().includes(texto.toLowerCase())) {
                     encontrado = datos.results[i];
                     break;
@@ -49,22 +49,22 @@
 
             document.getElementById("mensaje").innerText = "Encontrado!";
 
-            var div = document.createElement("div");
+            const div = document.createElement("div");
             div.className = "carta";
 
             if (encontrado.imgUrl) {
-                var img = document.createElement("img");
+                const img = document.createElement("img");
                 img.src = encontrado.imgUrl;
                 img.alt = encontrado.name;
                 div.appendChild(img);
             }
 
-            var nombre = document.createElement("p");
+            const nombre = document.createElement("p");
             nombre.innerText = encontrado.name;
             div.appendChild(nombre);
 
             if (encontrado.header) {
-                var desc = document.createElement("p");
+                const desc = document.createElement("p");
                 desc.className = "desc";
                 desc.innerText = encontrado.header;
                 div.appendChild(desc);
