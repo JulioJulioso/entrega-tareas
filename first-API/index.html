@@ -10,10 +10,10 @@
 
     <p>Escribe el nombre de un Gundam:</p>
 
-    <input type="text" id="busqueda" placeholder="ej: unicorn, zaku, wing...">
+    <input type="text" id="busqueda" placeholder="ej: unicorn, wing, exia, etc">
     <button onclick="buscar()">Buscar</button>
 
-    <p><b>Prueba escribir:</b> unicorn / zaku / wing / barbatos / exia / freedom / strike / astray</p>
+    <p><b>Prueba escribir:</b> unicorn / wing / barbatos / exia / freedom / strike / astray</p>
 
     <p id="mensaje"></p>
 
@@ -31,13 +31,8 @@
             document.getElementById("mensaje").innerText = "Buscando...";
             document.getElementById("resultado").innerHTML = "";
 
-            const respuesta = await fetch("https://corsproxy.io/?https://gundam-api.pages.dev/api/gundams?page=1&limit=20");
+            const respuesta = await fetch("https://corsproxy.io/?https://gundam-api.pages.dev/api/gundams?page=1&limit=828");
             const datos = await respuesta.json();
-<<<<<<< HEAD
-
-=======
-console.log(datos); // <- agregar esta línea
->>>>>>> faba990 (actualización de api)
             let encontrado = null;
             for (let i = 0; i < datos.results.length; i++) {
                 if (datos.results[i].name.toLowerCase().includes(texto.toLowerCase())) {
